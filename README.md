@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
   ...
-  implementation 'com.afollestad.viewpagerdots:1.0.0'
+  implementation 'com.afollestad:viewpagerdots:1.0.0'
 }
 ```
 
