@@ -4,7 +4,7 @@ This library provides a very small, compact, Kotlin-based implementation for Vie
 can of course be switched out for whatever type of Drawable you wish. The animation can be 
 customized as well.
 
-<img src="https://raw.githubusercontent.com/afollestad/aesthetic/master/assets/demo.gif" />
+<img src="https://raw.githubusercontent.com/afollestad/viewpagerdots/master/assets/demo.gif" />
 
 ---
 
