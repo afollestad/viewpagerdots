@@ -8,6 +8,10 @@ customized as well.
 
 ---
 
+[![Build Status](https://travis-ci.org/afollestad/viewpagerdots.svg)](https://travis-ci.org/afollestad/viewpagerdots)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/87f916c5a5bd46fe9eaf1a7a7f27314e)](https://www.codacy.com/app/drummeraidan_50/viewpagerdots?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=afollestad/viewpagerdots&amp;utm_campaign=Badge_Grade)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 ## Dependency
 
 ```gradle
