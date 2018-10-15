@@ -15,14 +15,8 @@ customized as well.
 ## Dependency
 
 ```gradle
-// This repo won't be required once jCenter approves this lib, soon
-repositories {
-  ...
-  maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
-}
-
 dependencies {
-  ...
+  
   implementation 'com.afollestad:viewpagerdots:1.0.0'
 }
 ```
