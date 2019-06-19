@@ -27,7 +27,7 @@ android {
 }
 
 dependencies {
-  api 'androidx.annotation:annotation:' + versions.androidx
+  api 'androidx.annotation:annotation:' + versions.androidxAnnotation
   api 'androidx.appcompat:appcompat:' + versions.androidx
 
   implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:' + versions.kotlin
