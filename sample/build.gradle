@@ -24,6 +24,7 @@ dependencies {
   implementation project(':library')
   implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + versions.kotlin
   implementation 'androidx.appcompat:appcompat:' + versions.androidx
+  implementation 'androidx.viewpager2:viewpager2:' + versions.androidxViewpager2
 }
 
 apply from: '../spotless.gradle'

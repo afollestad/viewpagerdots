@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ViewPager2Activity"
+    >
+
+  <androidx.appcompat.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?actionBarSize"
+      android:background="?colorPrimary"
+      android:elevation="4dp"
+      app:title="ViewPagerDots Sample (ViewPager2)"
+      tools:ignore="UnusedAttribute"
+      />
+
+  <FrameLayout
+      android:id="@+id/frame"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/blue"
+      >
+
+    <com.afollestad.viewpagerdots.DotsIndicator
+        android:id="@+id/dots"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="HardcodedText"
+        />
+
+  </FrameLayout>
+
+</LinearLayout>

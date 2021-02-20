@@ -15,18 +15,28 @@
  */
 package com.afollestad.viewpagerdotssample
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.dots
 import kotlinx.android.synthetic.main.activity_main.frame
 import kotlinx.android.synthetic.main.activity_main.pager
+import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class MainActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+
+    toolbar.inflateMenu(R.menu.main)
+    toolbar.setOnMenuItemClickListener { item ->
+      if (item.itemId == R.id.go_to_viewpager2) {
+        startActivity(Intent(this, ViewPager2Activity::class.java))
+      }
+      true
+    }
 
     pager.adapter = MainPagerAdapter()
     pager.offscreenPageLimit = 3
