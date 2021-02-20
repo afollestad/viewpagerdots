@@ -280,7 +280,7 @@ class DotsIndicator(
     override fun getInterpolation(value: Float) = abs(1.0f - value)
   }
 
-  interface PagerImpl: Closeable {
+  interface PagerImpl : Closeable {
     val itemCount: Int?
     val currentItem: Int
     val hasAdapter: Boolean
