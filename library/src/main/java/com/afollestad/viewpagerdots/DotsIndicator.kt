@@ -182,6 +182,7 @@ class DotsIndicator(
   }
 
   private fun internalPageSelected(position: Int) {
+    if ((pagerImpl?.itemCount ?: 0) <= 0)
     if (animatorIn.isRunning) {
       animatorIn.end()
       animatorIn.cancel()
@@ -202,6 +203,7 @@ class DotsIndicator(
       animatorOut.setTarget(selectedIndicator)
       animatorOut.start()
     }
+    lastPosition = position
   }
 
   private fun createIndicators() {
@@ -262,9 +264,7 @@ class DotsIndicator(
 
   private val internalPageChangeListener = object : ViewPager.OnPageChangeListener {
     override fun onPageSelected(position: Int) {
-      if ((viewPager?.adapter?.count ?: 0) <= 0) return
       internalPageSelected(position)
-      lastPosition = position
     }
 
     override fun onPageScrolled(
