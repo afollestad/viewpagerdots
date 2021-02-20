@@ -31,6 +31,8 @@ dependencies {
   api 'androidx.appcompat:appcompat:' + versions.androidx
 
   implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:' + versions.kotlin
+
+  compileOnly 'androidx.viewpager2:viewpager2:' + versions.androidxViewpager2
 }
 
 apply from: '../spotless.gradle'

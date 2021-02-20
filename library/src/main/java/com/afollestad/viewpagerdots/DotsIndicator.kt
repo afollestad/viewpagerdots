@@ -33,6 +33,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import java.io.Closeable
 import java.lang.Math.abs
 
@@ -145,6 +146,14 @@ class DotsIndicator(
   fun attachViewPager(viewPager: ViewPager?) {
     if (viewPager != null) {
       attachPagerImpl(ViewPagerImpl(viewPager, this::internalPageSelected))
+    } else {
+      attachPagerImpl(null)
+    }
+  }
+
+  fun attachViewPager2(viewPager2: ViewPager2?) {
+    if (viewPager2 != null) {
+      attachPagerImpl(ViewPager2Impl(viewPager2, this::internalPageSelected))
     } else {
       attachPagerImpl(null)
     }
@@ -303,6 +312,33 @@ class DotsIndicator(
 
     override fun close() {
       viewPager.removeOnPageChangeListener(listener)
+    }
+  }
+
+  class ViewPager2Impl(
+    private val viewPager2: ViewPager2,
+    private val pageSelected: (position: Int) -> Unit
+  ) : PagerImpl {
+
+    private val callback = object : ViewPager2.OnPageChangeCallback() {
+      override fun onPageSelected(position: Int) {
+        pageSelected(position)
+      }
+    }
+
+    init {
+      viewPager2.registerOnPageChangeCallback(callback)
+    }
+
+    override val itemCount: Int?
+      get() = viewPager2.adapter?.itemCount
+    override val currentItem: Int
+      get() = viewPager2.currentItem
+    override val hasAdapter: Boolean
+      get() = viewPager2.adapter != null
+
+    override fun close() {
+      viewPager2.unregisterOnPageChangeCallback(callback)
     }
   }
 
