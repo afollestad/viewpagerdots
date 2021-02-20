@@ -61,6 +61,41 @@ viewPager.adapter = // ... This must be set before attaching
 dots.attachViewPager(viewPager)
 ```
 
+For ViewPager2, it is very similar
+
+```xml
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+  <com.afollestad.viewpagerdots.DotsIndicator
+      android:id="@+id/dots"
+      android:layout_width="match_parent"
+      android:layout_height="48dp"
+      />
+
+  <androidx.viewpager2.widget.ViewPager2
+      android:id="@+id/pager"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
+
+</LinearLayout>
+```
+
+You attach the view pager to the dots indicator in your code:
+
+```kotlin
+val viewPager: ViewPager2 = // ...
+val dots: DotsIndicator = // ...
+
+viewPager.adapter = // ... This must be set before attaching
+dots.attachViewPager2(viewPager)
+```
+
 ---
 
 ## Customization
