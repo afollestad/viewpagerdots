@@ -8,7 +8,7 @@ customized as well.
 
 ---
 
-[ ![Download](https://api.bintray.com/packages/drummer-aidan/maven/viewpagerdots/images/download.svg) ](https://bintray.com/drummer-aidan/maven/viewpagerdots/_latestVersion)
+[ ![Maven Central](https://img.shields.io/maven-central/v/com.afollestad/viewpagerdots?style=flat&label=Maven+Central) ](https://repo1.maven.org/maven2/com/afollestad/viewpagerdots)
 [![Android CI](https://github.com/afollestad/viewpagerdots/workflows/Android%20CI/badge.svg)](https://github.com/afollestad/viewpagerdots/actions?query=workflow%3A%22Android+CI%22)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/87f916c5a5bd46fe9eaf1a7a7f27314e)](https://www.codacy.com/app/drummeraidan_50/viewpagerdots?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=afollestad/viewpagerdots&amp;utm_campaign=Badge_Grade)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
