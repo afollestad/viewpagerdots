@@ -33,6 +33,8 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
+import java.io.Closeable
 import java.lang.Math.abs
 
 /** @author Aidan Follestad (afollestad) */
@@ -41,7 +43,7 @@ class DotsIndicator(
   attrs: AttributeSet? = null
 ) : LinearLayout(context, attrs) {
 
-  private var viewPager: ViewPager? = null
+  private var pagerImpl: PagerImpl? = null
 
   private var indicatorMargin = -1
   private var indicatorWidth = -1
@@ -142,15 +144,28 @@ class DotsIndicator(
   fun setDotTintRes(@ColorRes tintRes: Int) = setDotTint(getColor(context, tintRes))
 
   fun attachViewPager(viewPager: ViewPager?) {
-    this.viewPager = viewPager
-    this.viewPager?.let {
-      if (it.adapter != null) {
-        lastPosition = -1
-        createIndicators()
-        it.removeOnPageChangeListener(internalPageChangeListener)
-        it.addOnPageChangeListener(internalPageChangeListener)
-        internalPageChangeListener.onPageSelected(it.currentItem)
-      }
+    if (viewPager != null) {
+      attachPagerImpl(ViewPagerImpl(viewPager, this::internalPageSelected))
+    } else {
+      attachPagerImpl(null)
+    }
+  }
+
+  fun attachViewPager2(viewPager2: ViewPager2?) {
+    if (viewPager2 != null) {
+      attachPagerImpl(ViewPager2Impl(viewPager2, this::internalPageSelected))
+    } else {
+      attachPagerImpl(null)
+    }
+  }
+
+  private fun attachPagerImpl(pagerImpl: PagerImpl?) {
+    this.pagerImpl?.close()
+    this.pagerImpl = pagerImpl
+    if (pagerImpl != null && pagerImpl.hasAdapter) {
+      lastPosition = -1
+      createIndicators()
+      internalPageSelected(pagerImpl.currentItem)
     }
   }
 
@@ -182,6 +197,7 @@ class DotsIndicator(
   }
 
   private fun internalPageSelected(position: Int) {
+    if ((pagerImpl?.itemCount ?: 0) <= 0)
     if (animatorIn.isRunning) {
       animatorIn.end()
       animatorIn.cancel()
@@ -202,12 +218,12 @@ class DotsIndicator(
       animatorOut.setTarget(selectedIndicator)
       animatorOut.start()
     }
+    lastPosition = position
   }
 
   private fun createIndicators() {
     removeAllViews()
-    val adapter = viewPager!!.adapter
-    val count = adapter?.count ?: 0
+    val count = pagerImpl!!.itemCount ?: 0
     if (count <= 0) return
     createIndicators(count)
   }
@@ -258,26 +274,72 @@ class DotsIndicator(
     return animatorIn
   }
 
-  private fun currentItem() = viewPager?.currentItem ?: -1
-
-  private val internalPageChangeListener = object : ViewPager.OnPageChangeListener {
-    override fun onPageSelected(position: Int) {
-      if ((viewPager?.adapter?.count ?: 0) <= 0) return
-      internalPageSelected(position)
-      lastPosition = position
-    }
-
-    override fun onPageScrolled(
-      position: Int,
-      positionOffset: Float,
-      positionOffsetPixels: Int
-    ) = Unit
-
-    override fun onPageScrollStateChanged(state: Int) = Unit
-  }
+  private fun currentItem() = pagerImpl?.currentItem ?: -1
 
   private inner class ReverseInterpolator : Interpolator {
     override fun getInterpolation(value: Float) = abs(1.0f - value)
+  }
+
+  private interface PagerImpl : Closeable {
+    val itemCount: Int?
+    val currentItem: Int
+    val hasAdapter: Boolean
+  }
+
+  private class ViewPagerImpl(
+    private val viewPager: ViewPager,
+    private val pageSelected: (position: Int) -> Unit
+  ) : PagerImpl {
+
+    private val listener = object : ViewPager.SimpleOnPageChangeListener() {
+      override fun onPageSelected(position: Int) {
+        pageSelected(position)
+      }
+    }
+
+    init {
+      viewPager.addOnPageChangeListener(listener)
+    }
+
+    override val itemCount: Int?
+      get() = viewPager.adapter?.count
+
+    override val currentItem: Int
+      get() = viewPager.currentItem
+
+    override val hasAdapter: Boolean
+      get() = viewPager.adapter != null
+
+    override fun close() {
+      viewPager.removeOnPageChangeListener(listener)
+    }
+  }
+
+  private class ViewPager2Impl(
+    private val viewPager2: ViewPager2,
+    private val pageSelected: (position: Int) -> Unit
+  ) : PagerImpl {
+
+    private val callback = object : ViewPager2.OnPageChangeCallback() {
+      override fun onPageSelected(position: Int) {
+        pageSelected(position)
+      }
+    }
+
+    init {
+      viewPager2.registerOnPageChangeCallback(callback)
+    }
+
+    override val itemCount: Int?
+      get() = viewPager2.adapter?.itemCount
+    override val currentItem: Int
+      get() = viewPager2.currentItem
+    override val hasAdapter: Boolean
+      get() = viewPager2.adapter != null
+
+    override fun close() {
+      viewPager2.unregisterOnPageChangeCallback(callback)
+    }
   }
 
   companion object {

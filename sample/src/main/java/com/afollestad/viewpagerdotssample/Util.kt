@@ -17,6 +17,7 @@ package com.afollestad.viewpagerdotssample
 
 import android.graphics.Color
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 
 internal fun ViewPager.onPageSelected(selection: (Int) -> Unit) {
   addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -29,6 +30,14 @@ internal fun ViewPager.onPageSelected(selection: (Int) -> Unit) {
       positionOffset: Float,
       positionOffsetPixels: Int
     ) = Unit
+  })
+}
+
+internal fun ViewPager2.onPageSelected(selection: (Int) -> Unit) {
+  registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+    override fun onPageSelected(position: Int) {
+      selection(position)
+    }
   })
 }
 
